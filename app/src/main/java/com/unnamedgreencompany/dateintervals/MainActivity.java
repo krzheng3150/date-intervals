@@ -20,6 +20,11 @@ public class MainActivity extends FragmentActivity
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 

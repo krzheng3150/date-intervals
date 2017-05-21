@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
-        android:text="@string/start_label"
+        android:layout_marginTop="16dp"
+        android:text="@string/start_date_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -22,17 +22,41 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/endDateInput"
+        android:id="@+id/startDateInput"
         android:layout_width="214dp"
         android:layout_height="35dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="3dp"
         android:ems="10"
         android:inputType="time"
-        android:onClick="showDatePickerDialog"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endDateLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/startDateLabel" />
+
+    <TextView
+        android:id="@+id/startTimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:text="@string/start_time_label"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startDateInput" />
+
+    <EditText
+        android:id="@+id/startTimeInput"
+        android:layout_width="214dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startTimeLabel" />
 
     <TextView
         android:id="@+id/endDateLabel"
@@ -41,26 +65,52 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
-        android:text="@string/end_label"
+        android:text="@string/end_date_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startDateInput"
+        app:layout_constraintTop_toBottomOf="@+id/startTimeInput"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/startDateInput"
+        android:id="@+id/endDateInput"
         android:layout_width="214dp"
-        android:layout_height="36dp"
+        android:layout_height="35dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="3dp"
         android:ems="10"
         android:inputType="time"
-        android:onClick="showDatePickerDialog"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startDateLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/endDateLabel" />
+
+    <TextView
+        android:id="@+id/endTimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:text="@string/end_date_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endDateInput"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/endTimeInput"
+        android:layout_width="214dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="3dp"
+        android:ems="10"
+        android:inputType="time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endTimeLabel" />
 
     <TextView
         android:id="@+id/numIntervalsLabel"
@@ -70,7 +120,7 @@
         android:layout_marginStart="16dp"
         android:text="@string/num_intervals_label"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/endDateInput"
+        app:layout_constraintTop_toBottomOf="@id/endTimeInput"
         android:layout_marginTop="22dp" />
 
     <EditText
@@ -82,7 +132,7 @@
         android:inputType="number"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/numIntervalsLabel"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="3dp" />
 
     <Button
         android:id="@+id/calculateButton"
@@ -95,15 +145,52 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:id="@+id/start_date_button"
+        android:layout_width="104dp"
+        android:layout_height="45dp"
         android:layout_marginLeft="34dp"
         android:onClick="showDatePickerDialog"
-        android:text="Button"
+        android:text="@string/picker_label"
         app:layout_constraintBottom_toBottomOf="@+id/startDateInput"
         app:layout_constraintLeft_toRightOf="@+id/startDateInput"
         app:layout_constraintTop_toTopOf="@+id/startDateInput"
-        tools:layout_editor_absoluteY="51dp" />
+        app:layout_constraintVertical_bias="0.571" />
+
+    <Button
+        android:id="@+id/start_time_button"
+        android:layout_width="104dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="34dp"
+        android:onClick="showTimePickerDialog"
+        android:text="@string/picker_label"
+        app:layout_constraintBottom_toBottomOf="@+id/startTimeInput"
+        app:layout_constraintLeft_toRightOf="@+id/startTimeInput"
+        app:layout_constraintTop_toTopOf="@+id/startTimeInput"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <Button
+        android:id="@+id/end_date_button"
+        android:layout_width="104dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="34dp"
+        android:onClick="showDatePickerDialog"
+        android:text="@string/picker_label"
+        app:layout_constraintBottom_toBottomOf="@+id/endDateInput"
+        app:layout_constraintLeft_toRightOf="@+id/endDateInput"
+        app:layout_constraintTop_toTopOf="@+id/endDateInput"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <Button
+        android:id="@+id/end_time_button"
+        android:layout_width="104dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="34dp"
+        android:onClick="showTimePickerDialog"
+        android:text="@string/picker_label"
+        app:layout_constraintBottom_toBottomOf="@+id/endTimeInput"
+        app:layout_constraintLeft_toRightOf="@+id/endTimeInput"
+        app:layout_constraintTop_toTopOf="@+id/endTimeInput"
+        app:layout_constraintVertical_bias="0.571" />
+
 
 </android.support.constraint.ConstraintLayout>
