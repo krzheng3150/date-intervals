@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Date Intervals</string>
+    <string name="start_label">Enter Start Date</string>
+    <string name="end_label">Enter End Date</string>
+    <string name="num_intervals_label">Number of intervals</string>
+    <string name="calculate_label">Calculate!</string>
 </resources>
