@@ -4,4 +4,7 @@
     <string name="end_label">Enter End Date</string>
     <string name="num_intervals_label">Number of intervals</string>
     <string name="calculate_label">Calculate!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
