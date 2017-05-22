@@ -43,18 +43,25 @@ public class MainActivity extends FragmentActivity
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = DatePickerFragment.newInstance(v.getTag().toString(), null);
+        String fieldName = v.getTag().toString();
+        int fieldId = getResources().getIdentifier(fieldName, "id", getPackageName());
+        EditText dateEditor = (EditText)findViewById(fieldId);
+        String value = dateEditor.getText().toString();
+        DialogFragment newFragment = DatePickerFragment.newInstance(fieldId, value);
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = TimePickerFragment.newInstance(v.getTag().toString(), null);
+        String fieldName = v.getTag().toString();
+        int fieldId = getResources().getIdentifier(fieldName, "id", getPackageName());
+        EditText timeEditor = (EditText)findViewById(fieldId);
+        String value = timeEditor.getText().toString();
+        DialogFragment newFragment = TimePickerFragment.newInstance(fieldId, value);
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     @Override
-    public void onDateSelection(String field, int year, int month, int day) {
-        int fieldId = getResources().getIdentifier(field, "id", getPackageName());
+    public void onDateSelection(int fieldId, int year, int month, int day) {
         EditText dateEditor = (EditText)findViewById(fieldId);
         Calendar c = Calendar.getInstance();
         c.set(year, month, day);
@@ -62,8 +69,7 @@ public class MainActivity extends FragmentActivity
     }
 
     @Override
-    public void onTimeSelection(String field, int hourOfDay, int minute) {
-        int fieldId = getResources().getIdentifier(field, "id", getPackageName());
+    public void onTimeSelection(int fieldId, int hourOfDay, int minute) {
         EditText timeEditor = (EditText)findViewById(fieldId);
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);

@@ -21,11 +21,11 @@ import android.text.format.DateFormat;
  */
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String FIELD_PARAM = "field";
-    private static final String VALUE_PARAM = "value";
+    private static final String FIELD_ID_PARAM = "field_id";
+    private static final String FIELD_VALUE_PARAM = "field_value";
 
-    private String field;
-    private String value;
+    private int fieldId;
+    private String fieldValue;
 
     private OnFragmentInteractionListener mListener;
 
@@ -50,15 +50,15 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param field The name of the field to edit.
-     * @param value The current value of that field.
+     * @param fieldId The ID of the field to edit.
+     * @param fieldValue The current fieldValue of that fieldId.
      * @return A new instance of fragment TimePickerFragment.
      */
-    public static TimePickerFragment newInstance(String field, String value) {
+    public static TimePickerFragment newInstance(int fieldId, String fieldValue) {
         TimePickerFragment fragment = new TimePickerFragment();
         Bundle args = new Bundle();
-        args.putString(FIELD_PARAM, field);
-        args.putString(VALUE_PARAM, value);
+        args.putInt(FIELD_ID_PARAM, fieldId);
+        args.putString(FIELD_VALUE_PARAM, fieldValue);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,8 +67,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            field = getArguments().getString(FIELD_PARAM);
-            value = getArguments().getString(VALUE_PARAM);
+            fieldId = getArguments().getInt(FIELD_ID_PARAM);
+            fieldValue = getArguments().getString(FIELD_VALUE_PARAM);
         }
     }
 
@@ -91,7 +91,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        mListener.onTimeSelection(field, hourOfDay, minute);
+        mListener.onTimeSelection(fieldId, hourOfDay, minute);
     }
 
     /**
@@ -105,6 +105,6 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onTimeSelection(String field, int hourOfDay, int minute);
+        void onTimeSelection(int fieldId, int hourOfDay, int minute);
     }
 }

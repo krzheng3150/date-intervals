@@ -21,11 +21,11 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String FIELD_PARAM = "field";
-    private static final String VALUE_PARAM = "value";
+    private static final String FIELD_ID_PARAM = "field_id";
+    private static final String FIELD_VALUE_PARAM = "field_value";
 
-    private String field;
-    private String value;
+    private int fieldId;
+    private String fieldValue;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,22 +47,22 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        mListener.onDateSelection(field, year, month, day);
+        mListener.onDateSelection(fieldId, year, month, day);
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param field The name of the field to edit.
-     * @param value The current value of that field.
+     * @param fieldId The ID of the field to edit.
+     * @param fieldValue The current fieldValue of that fieldId.
      * @return A new instance of fragment DatePickerFragment.
      */
-    public static DatePickerFragment newInstance(String field, String value) {
+    public static DatePickerFragment newInstance(int fieldId, String fieldValue) {
         DatePickerFragment fragment = new DatePickerFragment();
         Bundle args = new Bundle();
-        args.putString(FIELD_PARAM, field);
-        args.putString(VALUE_PARAM, value);
+        args.putInt(FIELD_ID_PARAM, fieldId);
+        args.putString(FIELD_VALUE_PARAM, fieldValue);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,8 +71,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            field = getArguments().getString(FIELD_PARAM);
-            value = getArguments().getString(VALUE_PARAM);
+            fieldId = getArguments().getInt(FIELD_ID_PARAM);
+            fieldValue = getArguments().getString(FIELD_VALUE_PARAM);
         }
     }
 
@@ -104,6 +104,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onDateSelection(String field, int year, int month, int day);
+        void onDateSelection(int fieldId, int year, int month, int day);
     }
 }
