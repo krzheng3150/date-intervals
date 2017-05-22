@@ -1,6 +1,5 @@
 package com.unnamedgreencompany.dateintervals;
 
-import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -26,6 +25,9 @@ public class MainActivity extends FragmentActivity
         timeFormat = DateFormat.getTimeFormat(this);
 
         Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+
         final Date now = c.getTime();
         c.add(Calendar.YEAR, 1);
         final Date future = c.getTime();
