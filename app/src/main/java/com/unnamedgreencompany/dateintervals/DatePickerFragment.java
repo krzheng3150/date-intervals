@@ -3,7 +3,6 @@ package com.unnamedgreencompany.dateintervals;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -21,14 +20,12 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String FIELD_PARAM = "field";
+    private static final String VALUE_PARAM = "value";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String field;
+    private String value;
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,24 +45,24 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
+    @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-
+        mListener.onDateSelection(field, year, month, day);
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param field The name of the field to edit.
+     * @param value The current value of that field.
      * @return A new instance of fragment DatePickerFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static DatePickerFragment newInstance(String param1, String param2) {
+    public static DatePickerFragment newInstance(String field, String value) {
         DatePickerFragment fragment = new DatePickerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(FIELD_PARAM, field);
+        args.putString(VALUE_PARAM, value);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,15 +71,8 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            field = getArguments().getString(FIELD_PARAM);
+            value = getArguments().getString(VALUE_PARAM);
         }
     }
 
@@ -114,7 +104,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onDateSelection(String field, int year, int month, int day);
     }
 }
