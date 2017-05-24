@@ -16,6 +16,11 @@ public class MainActivity extends FragmentActivity
     private java.text.DateFormat dateFormat;
     private java.text.DateFormat timeFormat;
 
+    private EditText startDateEditor;
+    private EditText startTimeEditor;
+    private EditText endDateEditor;
+    private EditText endTimeEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +37,13 @@ public class MainActivity extends FragmentActivity
         c.add(Calendar.YEAR, 1);
         final Date future = c.getTime();
 
-        EditText startDateEditor = (EditText)findViewById(R.id.startDateInput);
+        startDateEditor = (EditText)findViewById(R.id.startDateInput);
         startDateEditor.setText(dateFormat.format(new Date(now.getTime())));
-        EditText startTimeEditor = (EditText)findViewById(R.id.startTimeInput);
+        startTimeEditor = (EditText)findViewById(R.id.startTimeInput);
         startTimeEditor.setText(timeFormat.format(new Date(now.getTime())));
-        EditText endDateEditor = (EditText)findViewById(R.id.endDateInput);
+        endDateEditor = (EditText)findViewById(R.id.endDateInput);
         endDateEditor.setText(dateFormat.format(new Date(future.getTime())));
-        EditText endTimeEditor = (EditText)findViewById(R.id.endTimeInput);
+        endTimeEditor = (EditText)findViewById(R.id.endTimeInput);
         endTimeEditor.setText(timeFormat.format(new Date(future.getTime())));
     }
 
