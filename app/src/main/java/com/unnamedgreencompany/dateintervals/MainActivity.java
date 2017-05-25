@@ -1,5 +1,7 @@
 package com.unnamedgreencompany.dateintervals;
 
+import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
@@ -14,7 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends FragmentActivity
-        implements DatePickerFragment.OnFragmentInteractionListener, TimePickerFragment.OnFragmentInteractionListener {
+        implements DatePickerFragment.OnFragmentInteractionListener,
+                   TimePickerFragment.OnFragmentInteractionListener,
+                   ResultsFragment.OnFragmentInteractionListener {
 
     private java.text.DateFormat dateFormat;
     private java.text.DateFormat timeFormat;
@@ -98,6 +102,7 @@ public class MainActivity extends FragmentActivity
     }
 
     public void submitInputs(View v) {
+        //Validate the inputs first
         int numIntervals = Integer.parseInt(numIntervalsEditor.getText().toString());
         if (numIntervals < minIntervals || numIntervals > maxIntervals) {
             showError(R.string.interval_count_bounds);
@@ -120,6 +125,8 @@ public class MainActivity extends FragmentActivity
             showError(R.string.end_before_start);
             return;
         }
+        DialogFragment newFragment = ResultsFragment.newInstance(startPoint, endPoint, numIntervals);
+        newFragment.show(getSupportFragmentManager(), "results");
     }
 
     private void showError(int messageId) {
@@ -136,5 +143,10 @@ public class MainActivity extends FragmentActivity
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         timeEditor.setText(timeFormat.format(c.getTime()));
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
