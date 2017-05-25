@@ -24,14 +24,15 @@
         android:id="@+id/viewResultsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="42dp"
+        android:onClick="displayResults"
         android:text="@string/view_results_label"
-        tools:layout_editor_absoluteY="115dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusTextView"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="42dp" />
+        tools:layout_editor_absoluteY="115dp" />
 
     <Button
         android:id="@+id/downloadResultsButton"

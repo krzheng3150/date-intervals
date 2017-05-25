@@ -1,6 +1,8 @@
 package com.unnamedgreencompany.dateintervals;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import java.util.Date;
 public class ResultsActivity extends AppCompatActivity {
 
     private Date[] results;
+    private int displayThreshold;
 
     private TextView statusTextView;
     private Button viewResultsButton;
@@ -24,6 +27,8 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        displayThreshold = Integer.parseInt(getString(R.string.display_max));
 
         viewResultsButton = (Button)findViewById(R.id.viewResultsButton);
         viewResultsButton.setVisibility(View.INVISIBLE);
@@ -55,5 +60,16 @@ public class ResultsActivity extends AppCompatActivity {
         downloadResultsButton.setVisibility(View.VISIBLE);
         emailResultsButton.setVisibility(View.VISIBLE);
         backButton.setVisibility(View.VISIBLE);
+    }
+
+    public void displayResults(View v) {
+        if (results.length + 1 > displayThreshold) {
+            //Tell the user the results are too big to display
+            AlertDialog.Builder b = new AlertDialog.Builder(this);
+            b.setMessage(getString(R.string.too_many_results));
+            b.setNeutralButton(getString(R.string.ok), (DialogInterface dialog, int id) -> dialog.cancel());
+            AlertDialog dialog = b.create();
+            dialog.show();
+        }
     }
 }

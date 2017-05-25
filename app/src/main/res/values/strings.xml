@@ -1,4 +1,4 @@
-<!DOCTYPE resources [<!ENTITY intmin "2"><!ENTITY intmax "9000">]>
+<!DOCTYPE resources [<!ENTITY intmin "2"><!ENTITY intmax "9000"><!ENTITY dispmax "100">]>
 <resources>
     <string name="app_name">Date Intervals</string>
     <string name="start_date_label">Start Date</string>
@@ -24,6 +24,9 @@
     <string name="back_label">Back to Form</string>
     <string name="calculating_status">Status: Calculating...</string>
     <string name="done_status">Status: Done!</string>
+    <string name="display_max">&dispmax;</string>
+    <string name="too_many_results">Unfortunately, because there are more than &dispmax; intervals, they will not be displayed. Please download or email them.</string>
+    <string name="ok">OK</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
