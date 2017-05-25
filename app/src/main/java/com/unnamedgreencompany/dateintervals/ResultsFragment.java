@@ -45,7 +45,6 @@ public class ResultsFragment extends DialogFragment {
      * @param numIntervals the number of intervals.
      * @return A new instance of fragment ResultsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ResultsFragment newInstance(Calendar startPoint, Calendar endPoint, int numIntervals) {
         ResultsFragment fragment = new ResultsFragment();
         Bundle args = new Bundle();
