@@ -1,11 +1,11 @@
 package com.unnamedgreencompany.dateintervals;
 
+import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.app.FragmentTransaction;
 import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.EditText;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends AppCompatActivity
         implements DatePickerFragment.OnFragmentInteractionListener,
                    TimePickerFragment.OnFragmentInteractionListener,
                    ResultsFragment.OnFragmentInteractionListener {
@@ -32,9 +32,14 @@ public class MainActivity extends FragmentActivity
     private int minIntervals;
     private int maxIntervals;
 
+    static final String START_POINT_EXTRA = "start_point";
+    static final String END_POINT_EXTRA = "end_point";
+    static final String NUM_INTERVALS_EXTRA = "num_intervals";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         minIntervals = Integer.parseInt(getString(R.string.interval_min));
@@ -125,8 +130,12 @@ public class MainActivity extends FragmentActivity
             showError(R.string.end_before_start);
             return;
         }
-        DialogFragment newFragment = ResultsFragment.newInstance(startPoint, endPoint, numIntervals);
-        newFragment.show(getSupportFragmentManager(), "results");
+
+        Intent resultsIntent = new Intent(this, ResultsActivity.class);
+        resultsIntent.putExtra(START_POINT_EXTRA, startPoint);
+        resultsIntent.putExtra(END_POINT_EXTRA, endPoint);
+        resultsIntent.putExtra(NUM_INTERVALS_EXTRA, numIntervals);
+        startActivity(resultsIntent);
     }
 
     private void showError(int messageId) {
