@@ -2,6 +2,7 @@ package com.unnamedgreencompany.dateintervals;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.DateFormat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class ResultsActivity extends AppCompatActivity implements ResultsFragment.OnFragmentInteractionListener {
 
-    private Date[] results;
+    private String[] results;
     private int displayThreshold;
 
     private TextView statusTextView;
@@ -46,14 +49,17 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
         int numIntervals = submission.getIntExtra(MainActivity.NUM_INTERVALS_EXTRA,
                 Integer.parseInt(getString(R.string.default_num_intervals)));
 
-        results = new Date[numIntervals + 1];
+        Date[] dates = new Date[numIntervals + 1];
         double start = startPoint.getTimeInMillis();
         double end = endPoint.getTimeInMillis();
-        results[0] = new Date((long) start);
-        results[numIntervals] = new Date((long) end);
+        dates[0] = new Date((long) start);
+        dates[numIntervals] = new Date((long) end);
         for (int i = 1; i < numIntervals; i++) {
-            results[i] = new Date(Math.round(start + ((end - start) / numIntervals * i)));
+            dates[i] = new Date(Math.round(start + ((end - start) / numIntervals * i)));
         }
+
+        results = Arrays.stream(dates).map((Date d) -> DateFormat.getDateTimeInstance().format(d))
+                .collect(Collectors.toList()).parallelStream().toArray(String[]::new);
 
         statusTextView = (TextView)findViewById(R.id.statusTextView);
         statusTextView.setText(getString(R.string.done_status));

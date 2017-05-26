@@ -3,7 +3,6 @@ package com.unnamedgreencompany.dateintervals;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -28,7 +27,7 @@ import java.util.Date;
 public class ResultsFragment extends DialogFragment {
     private static final String RESULTS_PARAM = "results";
 
-    private Date[] results;
+    private String[] results;
 
     private Button backButton;
 
@@ -45,7 +44,7 @@ public class ResultsFragment extends DialogFragment {
      * @param results The list of dates to print.
      * @return A new instance of fragment ResultsFragment.
      */
-    public static ResultsFragment newInstance(Date[] results) {
+    public static ResultsFragment newInstance(String[] results) {
         ResultsFragment fragment = new ResultsFragment();
         Bundle args = new Bundle();
         args.putSerializable(RESULTS_PARAM, results);
@@ -57,7 +56,7 @@ public class ResultsFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            results = (Date[])getArguments().getSerializable(RESULTS_PARAM);
+            results = (String[])getArguments().getSerializable(RESULTS_PARAM);
         }
     }
 
@@ -101,7 +100,7 @@ public class ResultsFragment extends DialogFragment {
             rowNumber.setBackgroundResource(R.drawable.border);
 
             TextView dateInfo = new TextView(getActivity().getApplicationContext());
-            dateInfo.setText(DateFormat.getDateTimeInstance().format(results[i]));
+            dateInfo.setText(results[i]);
             dateInfo.setTextColor(Color.BLACK);
             dateInfo.setTextSize(18f);
             dateInfo.setBackgroundResource(R.drawable.border);
