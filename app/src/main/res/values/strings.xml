@@ -22,6 +22,7 @@
     <string name="download_results_label">Download as File</string>
     <string name="email_results_label">Email Results</string>
     <string name="back_label">Back to Form</string>
+    <string name="back0_label">Back</string>
     <string name="calculating_status">Status: Calculating...</string>
     <string name="done_status">Status: Done!</string>
     <string name="display_max">&dispmax;</string>

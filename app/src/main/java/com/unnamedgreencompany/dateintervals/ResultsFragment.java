@@ -10,12 +10,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Date;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +29,8 @@ public class ResultsFragment extends DialogFragment {
     private static final String RESULTS_PARAM = "results";
 
     private Date[] results;
+
+    private Button backButton;
 
     private OnFragmentInteractionListener mListener;
 
@@ -74,7 +76,10 @@ public class ResultsFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_results, container, false);
+        View view = inflater.inflate(R.layout.fragment_results, container, false);
+        backButton = (Button)view.findViewById(R.id.back0_button);
+        backButton.setOnClickListener((View v) -> dismiss());
+        return view;
     }
 
     @Override
@@ -85,26 +90,37 @@ public class ResultsFragment extends DialogFragment {
 
         for (int i = 0; i < results.length; i++) {
             TableRow newRow = new TableRow(getActivity().getApplicationContext());
-            newRow.setLayoutParams(new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            TableLayout.LayoutParams lp = new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+            newRow.setLayoutParams(lp);
 
             TextView rowNumber = new TextView(getActivity().getApplicationContext());
             rowNumber.setText(String.valueOf(i+1));
             rowNumber.setTextColor(Color.BLACK);
             rowNumber.setTextSize(18f);
+            rowNumber.setBackgroundResource(R.drawable.border);
 
             TextView dateInfo = new TextView(getActivity().getApplicationContext());
             dateInfo.setText(DateFormat.getDateTimeInstance().format(results[i]));
             dateInfo.setTextColor(Color.BLACK);
             dateInfo.setTextSize(18f);
+            dateInfo.setBackgroundResource(R.drawable.border);
 
-            newRow.addView(rowNumber, new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1.0f));
-            newRow.addView(dateInfo, new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 6.0f));
+            TableRow.LayoutParams rp1 = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1.0f);
+            rp1.setMargins(4, 2, 4, 2);
+            TableRow.LayoutParams rp2 = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 5.0f);
+            rp2.setMargins(4, 2, 4, 2);
 
-            table.addView(newRow);
+            newRow.addView(rowNumber, rp1);
+            newRow.addView(dateInfo, rp2);
+
+            table.addView(newRow, lp);
         }
+
+        //add a blank row so last row is not obstructed when table is too big
+        table.addView(new TableRow(getActivity().getApplicationContext()));
     }
 
     @Override

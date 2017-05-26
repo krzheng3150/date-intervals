@@ -64,7 +64,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
     }
 
     public void displayResults(View v) {
-        if (results.length + 1 > displayThreshold) {
+        if (results.length > displayThreshold + 1) {
             //Tell the user the results are too big to display
             AlertDialog.Builder b = new AlertDialog.Builder(this);
             b.setMessage(getString(R.string.too_many_results));
