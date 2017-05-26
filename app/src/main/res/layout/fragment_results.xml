@@ -4,28 +4,20 @@
     android:layout_height="match_parent"
     tools:context="com.unnamedgreencompany.dateintervals.ResultsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none"
+        android:layout_weight="1">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="494dp"
-        android:layout_marginTop="50dp">
-
-        <TableRow
+        <TableLayout
+            android:id="@+id/results_table"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        </TableLayout>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
+    </ScrollView>
 
 </FrameLayout>

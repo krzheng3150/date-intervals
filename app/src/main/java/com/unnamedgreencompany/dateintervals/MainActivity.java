@@ -1,7 +1,6 @@
 package com.unnamedgreencompany.dateintervals;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.graphics.Color;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
@@ -16,9 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity
-        implements DatePickerFragment.OnFragmentInteractionListener,
-                   TimePickerFragment.OnFragmentInteractionListener,
-                   ResultsFragment.OnFragmentInteractionListener {
+        implements DatePickerFragment.OnFragmentInteractionListener, TimePickerFragment.OnFragmentInteractionListener {
 
     private java.text.DateFormat dateFormat;
     private java.text.DateFormat timeFormat;
@@ -154,8 +151,4 @@ public class MainActivity extends AppCompatActivity
         timeEditor.setText(timeFormat.format(c.getTime()));
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 }

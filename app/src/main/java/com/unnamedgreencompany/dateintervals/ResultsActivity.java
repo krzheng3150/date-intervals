@@ -2,6 +2,7 @@ package com.unnamedgreencompany.dateintervals;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ResultsActivity extends AppCompatActivity {
+public class ResultsActivity extends AppCompatActivity implements ResultsFragment.OnFragmentInteractionListener {
 
     private Date[] results;
     private int displayThreshold;
@@ -71,5 +72,13 @@ public class ResultsActivity extends AppCompatActivity {
             AlertDialog dialog = b.create();
             dialog.show();
         }
+        else {
+            DialogFragment resultsFragment = ResultsFragment.newInstance(results);
+            resultsFragment.show(getSupportFragmentManager(), "results");
+        }
+    }
+
+    @Override
+    public void onFragmentInteraction() {
     }
 }

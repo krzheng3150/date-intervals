@@ -2,15 +2,21 @@ package com.unnamedgreencompany.dateintervals;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Color;
+import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
-import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -22,13 +28,9 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class ResultsFragment extends DialogFragment {
-    private static final String START_POINT_PARAM = "start_point";
-    private static final String END_POINT_PARAM = "end_point";
-    private static final String NUM_INTERVALS_PARAM = "num_intervals";
+    private static final String RESULTS_PARAM = "results";
 
-    private Calendar startPoint;
-    private Calendar endPoint;
-    private int numIntervals;
+    private Date[] results;
 
     private OnFragmentInteractionListener mListener;
 
@@ -40,17 +42,13 @@ public class ResultsFragment extends DialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param startPoint the starting point of the intervals.
-     * @param endPoint the ending point of the intervals.
-     * @param numIntervals the number of intervals.
+     * @param results The list of dates to print.
      * @return A new instance of fragment ResultsFragment.
      */
-    public static ResultsFragment newInstance(Calendar startPoint, Calendar endPoint, int numIntervals) {
+    public static ResultsFragment newInstance(Date[] results) {
         ResultsFragment fragment = new ResultsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(START_POINT_PARAM, startPoint);
-        args.putSerializable(END_POINT_PARAM, endPoint);
-        args.putInt(NUM_INTERVALS_PARAM, numIntervals);
+        args.putSerializable(RESULTS_PARAM, results);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,9 +57,7 @@ public class ResultsFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            startPoint = (Calendar)getArguments().getSerializable(START_POINT_PARAM);
-            endPoint = (Calendar)getArguments().getSerializable(END_POINT_PARAM);
-            numIntervals = getArguments().getInt(NUM_INTERVALS_PARAM);
+            results = (Date[])getArguments().getSerializable(RESULTS_PARAM);
         }
     }
 
@@ -83,10 +79,32 @@ public class ResultsFragment extends DialogFragment {
         return inflater.inflate(R.layout.fragment_results, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        TableLayout table = (TableLayout) getView().findViewById(R.id.results_table);
+        for (int i = 0; i < results.length; i++) {
+            TableRow newRow = new TableRow(getActivity().getApplicationContext());
+            newRow.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+            TextView rowNumber = new TextView(getActivity().getApplicationContext());
+            rowNumber.setText(String.valueOf(i+1));
+            rowNumber.setTextColor(Color.BLACK);
+            rowNumber.setTextSize(10f);
+
+            TextView dateInfo = new TextView(getActivity().getApplicationContext());
+            dateInfo.setText(DateFormat.getDateTimeInstance().format(results[i]));
+            dateInfo.setTextColor(Color.BLACK);
+            dateInfo.setTextSize(10f);
+
+            newRow.addView(rowNumber, new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1.0f));
+            newRow.addView(dateInfo, new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 5.0f));
+
+            table.addView(newRow);
         }
     }
 
@@ -118,7 +136,6 @@ public class ResultsFragment extends DialogFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction();
     }
 }
