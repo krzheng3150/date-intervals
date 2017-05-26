@@ -7,11 +7,9 @@ import android.icu.text.DateFormat;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -84,6 +82,7 @@ public class ResultsFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         TableLayout table = (TableLayout) getView().findViewById(R.id.results_table);
+
         for (int i = 0; i < results.length; i++) {
             TableRow newRow = new TableRow(getActivity().getApplicationContext());
             newRow.setLayoutParams(new TableRow.LayoutParams(
@@ -92,17 +91,17 @@ public class ResultsFragment extends DialogFragment {
             TextView rowNumber = new TextView(getActivity().getApplicationContext());
             rowNumber.setText(String.valueOf(i+1));
             rowNumber.setTextColor(Color.BLACK);
-            rowNumber.setTextSize(10f);
+            rowNumber.setTextSize(18f);
 
             TextView dateInfo = new TextView(getActivity().getApplicationContext());
             dateInfo.setText(DateFormat.getDateTimeInstance().format(results[i]));
             dateInfo.setTextColor(Color.BLACK);
-            dateInfo.setTextSize(10f);
+            dateInfo.setTextSize(18f);
 
             newRow.addView(rowNumber, new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 1.0f));
             newRow.addView(dateInfo, new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 5.0f));
+                    TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT, 6.0f));
 
             table.addView(newRow);
         }
