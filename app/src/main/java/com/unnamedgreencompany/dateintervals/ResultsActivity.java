@@ -49,16 +49,16 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
         int numIntervals = submission.getIntExtra(MainActivity.NUM_INTERVALS_EXTRA,
                 Integer.parseInt(getString(R.string.default_num_intervals)));
 
-        Date[] dates = new Date[numIntervals + 1];
+        Long[] timestamps = new Long[numIntervals + 1];
         double start = startPoint.getTimeInMillis();
         double end = endPoint.getTimeInMillis();
-        dates[0] = new Date((long) start);
-        dates[numIntervals] = new Date((long) end);
+        timestamps[0] = (long) start;
+        timestamps[numIntervals] = (long) end;
         for (int i = 1; i < numIntervals; i++) {
-            dates[i] = new Date(Math.round(start + ((end - start) / numIntervals * i)));
+            timestamps[i] = Math.round(start + ((end - start) / numIntervals * i));
         }
 
-        results = Arrays.stream(dates).map((Date d) -> DateFormat.getDateTimeInstance().format(d))
+        results = Arrays.stream(timestamps).map((Long l) -> DateFormat.getDateTimeInstance().format(new Date(l)))
                 .collect(Collectors.toList()).parallelStream().toArray(String[]::new);
 
         statusTextView = (TextView)findViewById(R.id.statusTextView);
