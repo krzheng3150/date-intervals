@@ -84,12 +84,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
 
     public void displayResults(View v) {
         if (results.length > displayThreshold + 1) {
-            //Tell the user the results are too big to display
-            AlertDialog.Builder b = new AlertDialog.Builder(this);
-            b.setMessage(getString(R.string.too_many_results));
-            b.setNeutralButton(getString(R.string.ok), (DialogInterface dialog, int id) -> dialog.cancel());
-            AlertDialog dialog = b.create();
-            dialog.show();
+            alert(getString(R.string.too_many_results));
         }
         else {
             DialogFragment resultsFragment = ResultsFragment.newInstance(results);
@@ -100,16 +95,18 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
     public void downloadResults(View v) {
         try {
             //First we need to request permission to write externally, mandatory for Android M and later
+            //Note: Permission check is asynchronous so we tell the user to press download again after it's granted.
             if (!checkPermission()) {
                 requestPermission();
             }
-
-            String fileName = getDefaultFileName();
-            saveFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-            showMessage(String.format("%s %s", getString(R.string.file_save_success), fileName), true);
+            else {
+                String fileName = getDefaultFileName();
+                saveFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+                alert(String.format("%s %s", getString(R.string.file_save_success), fileName));
+            }
         }
         catch (Exception e) {
-            showMessage(String.format("%s %s", getString(R.string.file_save_failure), e.getMessage()), false);
+            alert(String.format("%s %s", getString(R.string.file_save_failure), e.getMessage()));
         }
     }
 
@@ -125,7 +122,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             startActivity(Intent.createChooser(intent, "sendEmail"));
         }
         catch (Exception e) {
-            showMessage(String.format("%s %s", getString(R.string.email_send_failure), e.getMessage()), false);
+            alert(String.format("%s %s", getString(R.string.email_send_failure), e.getMessage()));
         }
     }
 
@@ -148,11 +145,12 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
         }
     }
 
-    private void showMessage(String message, boolean success) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-        toastMessage.setBackgroundColor(success ? Color.BLUE : Color.RED);
-        toast.show();
+    private void alert(String message) {
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setMessage(message);
+        b.setNeutralButton(getString(R.string.ok), (DialogInterface dialog, int id) -> dialog.cancel());
+        AlertDialog dialog = b.create();
+        dialog.show();
     }
 
     public void back(View v) {
@@ -170,5 +168,16 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(ResultsActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            alert(getString(R.string.permission_granted));
+        }
+        else {
+            alert(getString(R.string.permission_denied));
+        }
     }
 }
