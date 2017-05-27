@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.icu.text.DateFormat;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
@@ -103,18 +104,47 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
                 requestPermission();
             }
 
-            String filename = String.format("Result-%s.csv", DateFormat.getDateTimeInstance().format(new Date()));
-            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            File file = new File(dir, filename);
+            String fileName = getDefaultFileName();
+            saveFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+            showSuccess(String.format("%s %s", getString(R.string.file_save_success), fileName));
+        }
+        catch (Exception e) {
+            showError(String.format("%s %s", getString(R.string.file_save_failure), e.getMessage()));
+        }
+    }
+
+    public void emailResults(View v) {
+        try {
+            File file = saveFile(getApplicationContext().getExternalCacheDir(), getDefaultFileName());
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "DateIntervals App Data");
+            intent.putExtra(Intent.EXTRA_TEXT, "See attachment.");
+            Uri uri = Uri.parse("file://" + file.getAbsolutePath());
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(intent, "sendEmail"));
+        }
+        catch (Exception e) {
+            showError(String.format("%s %s", getString(R.string.email_send_failure), e.getMessage()));
+        }
+    }
+
+    private String getDefaultFileName() {
+        return String.format("DateIntervals-%s.csv", DateFormat.getDateTimeInstance().format(new Date()));
+    }
+
+    private File saveFile(File dir, String fileName) {
+        try {
+            File file = new File(dir, fileName);
             PrintWriter writer = new PrintWriter(new FileWriter(file));
             for (int i = 0; i < results.length; i++) {
                 writer.println(String.format(Locale.getDefault(), "%d,%s", i, results[i]));
             }
             writer.close();
-            showSuccess(String.format("%s %s", getString(R.string.file_save_success), file));
+            return file;
         }
         catch (Exception e) {
-            showError(String.format("%s %s", getString(R.string.file_save_failure), e.getMessage()));
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
