@@ -132,6 +132,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
         toast.show();
     }
 
+    public void back(View v) {
+        this.finish();
+    }
+
     @Override
     public void onFragmentInteraction() {
     }
