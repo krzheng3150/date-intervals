@@ -106,10 +106,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
 
             String fileName = getDefaultFileName();
             saveFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
-            showSuccess(String.format("%s %s", getString(R.string.file_save_success), fileName));
+            showMessage(String.format("%s %s", getString(R.string.file_save_success), fileName), true);
         }
         catch (Exception e) {
-            showError(String.format("%s %s", getString(R.string.file_save_failure), e.getMessage()));
+            showMessage(String.format("%s %s", getString(R.string.file_save_failure), e.getMessage()), false);
         }
     }
 
@@ -125,7 +125,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             startActivity(Intent.createChooser(intent, "sendEmail"));
         }
         catch (Exception e) {
-            showError(String.format("%s %s", getString(R.string.email_send_failure), e.getMessage()));
+            showMessage(String.format("%s %s", getString(R.string.email_send_failure), e.getMessage()), false);
         }
     }
 
@@ -148,17 +148,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
         }
     }
 
-    private void showError(String message) {
+    private void showMessage(String message, boolean success) {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
         TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-        toastMessage.setBackgroundColor(Color.RED);
-        toast.show();
-    }
-
-    private void showSuccess(String message) {
-        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG);
-        TextView toastMessage = (TextView) toast.getView().findViewById(android.R.id.message);
-        toastMessage.setBackgroundColor(Color.BLUE);
+        toastMessage.setBackgroundColor(success ? Color.BLUE : Color.RED);
         toast.show();
     }
 
