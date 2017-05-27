@@ -14,8 +14,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.util.Date;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the

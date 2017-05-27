@@ -3,7 +3,6 @@ package com.unnamedgreencompany.dateintervals;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.icu.text.DateFormat;
 import android.net.Uri;
 import android.os.Environment;
@@ -16,7 +15,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -71,7 +69,8 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             timestamps[i] = Math.round(start + ((end - start) / numIntervals * i));
         }
 
-        results = Arrays.stream(timestamps).map((Long l) -> DateFormat.getDateTimeInstance().format(new Date(l)))
+        //Convert the numerical timestamps to date strings with commas replaced by periods due to CSV default delimiter
+        results = Arrays.stream(timestamps).map((Long l) -> DateFormat.getDateTimeInstance().format(new Date(l)).replace(',', '.'))
                 .collect(Collectors.toList()).parallelStream().toArray(String[]::new);
 
         statusTextView = (TextView)findViewById(R.id.statusTextView);
