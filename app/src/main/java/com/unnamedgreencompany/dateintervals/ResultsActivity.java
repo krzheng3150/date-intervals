@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
     private int displayThreshold;
 
     private TextView statusTextView;
+    private CheckBox zeroIndexCheckbox;
     private Button viewResultsButton;
     private Button downloadResultsButton;
     private Button emailResultsButton;
@@ -45,6 +47,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
 
         displayThreshold = Integer.parseInt(getString(R.string.display_max));
 
+        zeroIndexCheckbox = (CheckBox)findViewById(R.id.zeroIndexCheckbox);
         viewResultsButton = (Button)findViewById(R.id.viewResultsButton);
         viewResultsButton.setVisibility(View.INVISIBLE);
         downloadResultsButton = (Button)findViewById(R.id.downloadResultsButton);
@@ -86,7 +89,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             alert(getString(R.string.too_many_results));
         }
         else {
-            DialogFragment resultsFragment = ResultsFragment.newInstance(results);
+            DialogFragment resultsFragment = ResultsFragment.newInstance(results, zeroIndexCheckbox.isChecked());
             resultsFragment.show(getSupportFragmentManager(), "results");
         }
     }
@@ -134,7 +137,8 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             File file = new File(dir, fileName);
             PrintWriter writer = new PrintWriter(new FileWriter(file));
             for (int i = 0; i < results.length; i++) {
-                writer.println(String.format(Locale.getDefault(), "%d,%s", i, results[i]));
+                writer.println(String.format(Locale.getDefault(), "%d,%s",
+                        zeroIndexCheckbox.isChecked() ? i : i+1, results[i]));
             }
             writer.close();
             return file;

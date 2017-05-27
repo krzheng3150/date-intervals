@@ -25,6 +25,7 @@
     <string name="back0_label">Back</string>
     <string name="calculating_status">Status: Calculating...</string>
     <string name="done_status">Status: Done!</string>
+    <string name="zero_index_label">Zero-index results</string>
     <string name="display_max">&dispmax;</string>
     <string name="too_many_results">Unfortunately, because there are more than &dispmax; intervals, they will not be displayed. Please download or email them.</string>
     <string name="ok">OK</string>

@@ -24,8 +24,10 @@ import android.widget.TextView;
  */
 public class ResultsFragment extends DialogFragment {
     private static final String RESULTS_PARAM = "results";
+    private static final String ZERO_INDEX_PARAM = "zeroIndexed";
 
     private String[] results;
+    private boolean isZeroIndexed;
 
     private Button backButton;
 
@@ -40,12 +42,14 @@ public class ResultsFragment extends DialogFragment {
      * this fragment using the provided parameters.
      *
      * @param results The list of dates to print.
+     * @param isZeroIndexed Are the results zero-indexed.
      * @return A new instance of fragment ResultsFragment.
      */
-    public static ResultsFragment newInstance(String[] results) {
+    public static ResultsFragment newInstance(String[] results, boolean isZeroIndexed) {
         ResultsFragment fragment = new ResultsFragment();
         Bundle args = new Bundle();
         args.putSerializable(RESULTS_PARAM, results);
+        args.putSerializable(ZERO_INDEX_PARAM, isZeroIndexed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,6 +59,7 @@ public class ResultsFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             results = (String[])getArguments().getSerializable(RESULTS_PARAM);
+            isZeroIndexed = getArguments().getBoolean(ZERO_INDEX_PARAM);
         }
     }
 
@@ -92,7 +97,7 @@ public class ResultsFragment extends DialogFragment {
             newRow.setLayoutParams(lp);
 
             TextView rowNumber = new TextView(getActivity().getApplicationContext());
-            rowNumber.setText(String.valueOf(i+1));
+            rowNumber.setText(String.valueOf(isZeroIndexed ? i : i+1));
             rowNumber.setTextColor(Color.BLACK);
             rowNumber.setTextSize(18f);
             rowNumber.setBackgroundResource(R.drawable.border);
