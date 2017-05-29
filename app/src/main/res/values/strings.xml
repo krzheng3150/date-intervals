@@ -31,6 +31,7 @@
     <string name="ok">OK</string>
     <string name="file_save_success">File saved successfully in your Downloads folder as </string>
     <string name="file_save_failure">Oops! There was an issue saving your file. The error was: </string>
+    <string name="email_need_setup">Please set up your email for this phone, then press the Email Results button again.</string>
     <string name="email_send_failure">Oops! There was an issue sending the email. The error was: </string>
     <string name="permission_granted">Permission granted. Press the Download button AGAIN to download your file.</string>
     <string name="permission_denied">You denied permission to download the file.</string>

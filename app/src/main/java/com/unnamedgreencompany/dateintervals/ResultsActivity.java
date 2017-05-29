@@ -3,7 +3,7 @@ package com.unnamedgreencompany.dateintervals;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.text.DateFormat;
+import android.os.Build;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -20,15 +20,17 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class ResultsActivity extends AppCompatActivity implements ResultsFragment.OnFragmentInteractionListener {
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+
+    private java.text.DateFormat displayDateTimeFormat;
+    private java.text.DateFormat fileNameDateTimeFormat;
 
     private String[] results;
     private int displayThreshold;
@@ -44,6 +46,9 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
+
+        displayDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd.HH:MM:SS");
+        fileNameDateTimeFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
         displayThreshold = Integer.parseInt(getString(R.string.display_max));
 
@@ -72,9 +77,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             timestamps[i] = Math.round(start + ((end - start) / numIntervals * i));
         }
 
-        //Convert the numerical timestamps to date strings with commas replaced by periods due to CSV default delimiter
-        results = Arrays.stream(timestamps).map((Long l) -> DateFormat.getDateTimeInstance().format(new Date(l)).replace(',', '.'))
-                .collect(Collectors.toList()).parallelStream().toArray(String[]::new);
+        results = new String[numIntervals + 1];
+        for (int i = 0; i <= numIntervals; i++) {
+            results[i] = displayDateTimeFormat.format(new Date(timestamps[i]));
+        }
 
         statusTextView = (TextView)findViewById(R.id.statusTextView);
         statusTextView.setText(getString(R.string.done_status));
@@ -96,7 +102,6 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
 
     public void downloadResults(View v) {
         try {
-            //First we need to request permission to write externally, mandatory for Android M and later
             //Note: Permission check is asynchronous so we tell the user to press download again after it's granted.
             if (!checkPermission()) {
                 requestPermission();
@@ -121,7 +126,12 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
             intent.putExtra(Intent.EXTRA_TEXT, "See attachment.");
             Uri uri = Uri.parse("file://" + file.getAbsolutePath());
             intent.putExtra(Intent.EXTRA_STREAM, uri);
-            startActivity(Intent.createChooser(intent, "sendEmail"));
+            if (intent.resolveActivity(getPackageManager()) == null) {
+                alert(getString(R.string.email_need_setup));
+            }
+            else {
+                startActivity(Intent.createChooser(intent, "sendEmail"));
+            }
         }
         catch (Exception e) {
             alert(String.format("%s %s", getString(R.string.email_send_failure), e.getMessage()));
@@ -129,7 +139,7 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
     }
 
     private String getDefaultFileName() {
-        return String.format("DateIntervals-%s.csv", DateFormat.getDateTimeInstance().format(new Date()));
+        return String.format("DateIntervals%s.csv", fileNameDateTimeFormat.format(new Date()));
     }
 
     private File saveFile(File dir, String fileName) {
@@ -165,6 +175,10 @@ public class ResultsActivity extends AppCompatActivity implements ResultsFragmen
     }
 
     private boolean checkPermission() {
+        //We always have permission using the WRITE_EXTERNAL_STORAGE flag before Android M
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
         int result = ContextCompat.checkSelfPermission(ResultsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;
     }
